@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>¡Feliz cumple CECY! 🎂🎆🌹</title>
+  <style>
+    :root {
+      --bg: radial-gradient(circle at 50% 60%, #0a0f24 0%, #040714 50%, #01030a 100%);
+      --accent: #ffdf6b;
+      --rose:#d61a3c;
+      --stem:#2e8b57;
+    }
+    html, body { height:100%; margin:0 }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+           background: var(--bg); color: white; overflow:hidden; }
+
+    /* Canvas de fuegos artificiales cubriendo toda la pantalla */
+    #sky { position:fixed; inset:0; z-index:0; display:block; }
+
+    /* Contenido principal */
+    .content { position:relative; z-index:2; height:100%; display:grid; place-items:center; text-align:center; padding: 24px; }
+    .title { font-size: clamp(36px, 6vw, 72px); font-weight: 800; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,.5); }
+    .subtitle { font-size: clamp(16px, 3vw, 24px); opacity:.9; max-width: 900px; margin: 12px auto 0; line-height:1.4 }
+
+    /* Botón de activar sonido (solo aparece si el autoplay es bloqueado) */
+    #soundBtn { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%);
+                z-index: 3; padding: 12px 18px; border-radius: 999px; font-weight: 700;
+                border: 0; background: white; color: #111; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+                cursor: pointer; display:none }
+    #soundBtn:hover { filter: brightness(.95) }
+
+    /* Ramo de rosas: esquina inferior derecha */
+    .roses { position: fixed; right: -40px; bottom: -20px; width: min(38vw, 420px); z-index:1; opacity:.95; pointer-events:none; filter: drop-shadow(0 10px 16px rgba(0,0,0,.4)); }
+
+    /* Ramo espejo en la izquierda (opcional, se puede ocultar comentando) */
+    .roses.left { left: -40px; right: auto; transform: scaleX(-1); opacity:.75 }
+
+    /* Sutil brillo bokeh encima */
+    .bokeh { position: fixed; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen; }
+  </style>
+</head>
+<body>
+  <!-- Música: Reemplaza el src por la ruta de tu MP3 (p.ej. happy-birthday.mp3) -->
+  <audio id="song" src="Happy Birthday To You.mp3" preload="auto" autoplay loop></audio>
+
+  <!-- Cielo de fuegos artificiales -->
+  <canvas id="sky"></canvas>
+
+  <!-- Capa de bokeh suave -->
+  <canvas id="bokeh" class="bokeh"></canvas>
+
+  <!-- Contenido -->
+  <main class="content">
+    <div>
+      <h1 class="title">¡Feliz cumple CECY, <span style="color:var(--accent)">🎉</span>!</h1>
+      <p class="subtitle">Que tu día esté lleno de magia, risas y momentos que brillen como estos fuegos artificiales. ¡Te deseo salud, amor y éxitos infinitos! 💫</p>
+    </div>
+  </main>
+
+  <!-- Ramo de rosas (SVG inline, sin dependencias) -->
+  <svg class="roses left" viewBox="0 0 300 400" aria-hidden="true">
+    <defs>
+      <radialGradient id="petalGrad" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#ff6f8f"/>
+        <stop offset="60%" stop-color="#e11c47"/>
+        <stop offset="100%" stop-color="#a50f2d"/>
+      </radialGradient>
+      <linearGradient id="leafGrad" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#5cc08a"/>
+        <stop offset="100%" stop-color="#267a54"/>
+      </linearGradient>
+    </defs>
+    <!-- Tallos -->
+    <g stroke="#1f6b44" stroke-width="6" fill="none">
+      <path d="M40 380 C 120 280, 100 220, 140 120"/>
+      <path d="M80 380 C 120 280, 160 240, 190 140"/>
+      <path d="M120 380 C 160 300, 200 250, 240 160"/>
+    </g>
+    <!-- Hojas -->
+    <g fill="url(#leafGrad)">
+      <ellipse cx="95" cy="260" rx="36" ry="20" transform="rotate(-25 95 260)"/>
+      <ellipse cx="155" cy="230" rx="32" ry="18" transform="rotate(20 155 230)"/>
+      <ellipse cx="205" cy="200" rx="34" ry="19" transform="rotate(-15 205 200)"/>
+    </g>
+    <!-- Rosas -->
+    <g>
+      <g transform="translate(135 90) scale(1.1)">
+        <circle r="28" fill="url(#petalGrad)"/>
+        <path d="M-12 0 Q0 -18 12 0 Q0 14 -12 0" fill="#ff96ad" opacity=".9"/>
+        <path d="M-18 -6 Q0 -26 18 -6 Q0 8 -18 -6" fill="#ff567a" opacity=".9"/>
+      </g>
+      <g transform="translate(185 120) scale(1)">
+        <circle r="26" fill="url(#petalGrad)"/>
+        <path d="M-12 0 Q0 -18 12 0 Q0 14 -12 0" fill="#ff96ad" opacity=".9"/>
+        <path d="M-18 -6 Q0 -26 18 -6 Q0 8 -18 -6" fill="#ff567a" opacity=".9"/>
+      </g>
+      <g transform="translate(95 140) scale(0.95)">
+        <circle r="24" fill="url(#petalGrad)"/>
+        <path d="M-12 0 Q0 -18 12 0 Q0 14 -12 0" fill="#ff96ad" opacity=".9"/>
+        <path d="M-18 -6 Q0 -26 18 -6 Q0 8 -18 -6" fill="#ff567a" opacity=".9"/>
+      </g>
+    </g>
+  </svg>
+
+  <svg class="roses" viewBox="0 0 300 400" aria-hidden="true">
+    <defs>
+      <radialGradient id="petalGrad2" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#ff6f8f"/>
+        <stop offset="60%" stop-color="#e11c47"/>
+        <stop offset="100%" stop-color="#a50f2d"/>
+      </radialGradient>
+      <linearGradient id="leafGrad2" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#5cc08a"/>
+        <stop offset="100%" stop-color="#267a54"/>
+      </linearGradient>
+    </defs>
+    <!-- Tallos -->
+    <g stroke="#1f6b44" stroke-width="6" fill="none">
+      <path d="M40 380 C 120 280, 100 220, 140 120"/>
+      <path d="M80 380 C 120 280, 160 240, 190 140"/>
+      <path d="M120 380 C 160 300, 200 250, 240 160"/>
+    </g>
+    <!-- Hojas -->
+    <g fill="url(#leafGrad2)">
+      <ellipse cx="95" cy="260" rx="36" ry="20" transform="rotate(-25 95 260)"/>
+      <ellipse cx="155" cy="230" rx="32" ry="18" transform="rotate(20 155 230)"/>
+      <ellipse cx="205" cy="200" rx="34" ry="19" transform="rotate(-15 205 200)"/>
+    </g>
+    <!-- Rosas -->
+    <g>
+      <g transform="translate(135 90) scale(1.1)">
+        <circle r="28" fill="url(#petalGrad2)"/>
+        <path d="M-12 0 Q0 -18 12 0 Q0 14 -12 0" fill="#ff96ad" opacity=".9"/>
+        <path d="M-18 -6 Q0 -26 18 -6 Q0 8 -18 -6" fill="#ff567a" opacity=".9"/>
+      </g>
+      <g transform="translate(185 120) scale(1)">
+        <circle r="26" fill="url(#petalGrad2)"/>
+        <path d="M-12 0 Q0 -18 12 0 Q0 14 -12 0" fill="#ff96ad" opacity=".9"/>
+        <path d="M-18 -6 Q0 -26 18 -6 Q0 8 -18 -6" fill="#ff567a" opacity=".9"/>
+      </g>
+      <g transform="translate(95 140) scale(0.95)">
+        <circle r="24" fill="url(#petalGrad2)"/>
+        <path d="M-12 0 Q0 -18 12 0 Q0 14 -12 0" fill="#ff96ad" opacity=".9"/>
+        <path d="M-18 -6 Q0 -26 18 -6 Q0 8 -18 -6" fill="#ff567a" opacity=".9"/>
+      </g>
+    </g>
+  </svg>
+
+  <button id="soundBtn" aria-label="Activar sonido">🔊 Activar música</button>
+
+  <script>
+    // ====== Fireworks engine (canvas) ======
+    const canvas = document.getElementById('sky');
+    const ctx = canvas.getContext('2d');
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+    function resize() {
+      canvas.width = innerWidth * DPR;
+      canvas.height = innerHeight * DPR;
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+    }
+    addEventListener('resize', resize);
+    resize();
+
+    // Partículas
+    const GRAVITY = 0.05 * DPR;
+    const FRICTION = 0.995;
+    const SPARKS = [];
+
+    function random(min, max) { return Math.random() * (max - min) + min; }
+
+    function burst(x, y, color) {
+      const count = Math.floor(random(60, 120));
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2) * (i / count) + random(-0.05, 0.05);
+        const speed = random(2, 5) * DPR;
+        SPARKS.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: random(50, 110),
+          color,
+          size: random(1, 2.2) * DPR,
+          alpha: 1
+        });
+      }
+    }
+
+    const palette = ['#ffd166', '#f94144', '#90be6d', '#577590', '#f3722c', '#43aa8b', '#f9c74f', '#f8961e', '#4d96ff', '#c77dff'];
+
+    let tick = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      tick++;
+      // Desvanecer con un rectángulo translúcido para estelas bonitas
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.globalCompositeOperation = 'lighter';
+
+      // Crear estallidos aleatorios
+      if (tick % 25 === 0) {
+        const x = random(canvas.width * 0.1, canvas.width * 0.9);
+        const y = random(canvas.height * 0.1, canvas.height * 0.5);
+        const color = palette[Math.floor(random(0, palette.length))];
+        burst(x, y, color);
+      }
+
+      // Actualizar y dibujar chispas
+      for (let i = SPARKS.length - 1; i >= 0; i--) {
+        const p = SPARKS[i];
+        p.vx *= FRICTION;
+        p.vy = p.vy * FRICTION + GRAVITY;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 1;
+        p.alpha = Math.max(0, p.life / 110);
+        if (p.life <= 0 || p.y > canvas.height + 10) { SPARKS.splice(i, 1); continue; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+    animate();
+
+    // Estallido en clic/toque
+    addEventListener('pointerdown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * DPR;
+      const y = (e.clientY - rect.top) * DPR;
+      burst(x, y, palette[Math.floor(Math.random() * palette.length)]);
+    });
+
+    // ====== Bokeh suave para ambiente ======
+    const bokeh = document.getElementById('bokeh');
+    const bctx = bokeh.getContext('2d');
+    function resizeBokeh(){
+      bokeh.width = innerWidth * DPR;
+      bokeh.height = innerHeight * DPR;
+      bokeh.style.width = innerWidth + 'px';
+      bokeh.style.height = innerHeight + 'px';
+    }
+    addEventListener('resize', resizeBokeh); resizeBokeh();
+    (function loopBokeh(){
+      requestAnimationFrame(loopBokeh);
+      bctx.clearRect(0,0,bokeh.width,bokeh.height);
+      for(let i=0;i<24;i++){
+        const x = Math.sin((Date.now()/2000) + i) * (bokeh.width*0.4) + bokeh.width/2 + (Math.random()-0.5)*40;
+        const y = Math.cos((Date.now()/3000) + i) * (bokeh.height*0.25) + bokeh.height*0.45 + (Math.random()-0.5)*40;
+        const r = (Math.sin((Date.now()/1500)+i)*6 + 18) * DPR;
+        const g = bctx.createRadialGradient(x,y,0,x,y,r);
+        g.addColorStop(0, 'rgba(255,255,255,0.09)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        bctx.fillStyle = g; bctx.beginPath(); bctx.arc(x,y,r,0,Math.PI*2); bctx.fill();
+      }
+    })();
+
+    // ====== Audio autoplay con fallback ======
+    const audio = document.getElementById('song');
+    const soundBtn = document.getElementById('soundBtn');
+
+    function tryPlay(){
+      audio.volume = 1;
+      audio.play().then(()=>{
+        // ¡Autoplay con sonido logrado!
+        soundBtn.style.display = 'none';
+      }).catch(()=>{
+        // La mayoría de navegadores bloquean autoplay con sonido: pedimos interacción
+        soundBtn.style.display = 'inline-flex';
+      });
+    }
+
+    // Intento inicial
+    window.addEventListener('load', tryPlay);
+
+    // Reintenta al volver a la pestaña
+    document.addEventListener('visibilitychange', ()=>{
+      if (!document.hidden && audio.paused) tryPlay();
+    });
+
+    // Desbloqueo por interacción del usuario
+    soundBtn.addEventListener('click', ()=>{
+      audio.muted = false;
+      audio.play();
+      soundBtn.style.display = 'none';
+    });
+
+    // Tip: tocar/arrastrar también dispara audio en iOS/Android si estaba bloqueado
+    addEventListener('pointerdown', ()=>{
+      if (audio.paused) tryPlay();
+    }, { once:false });
+  </script>
+</body>
+</html>
